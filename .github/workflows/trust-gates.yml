@@ -1,0 +1,36 @@
+name: TrustAsCode - SOC2 Compliance Gates
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  compliance-checks:
+    name: Zero-Trust Security Scans
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Infrastructure Code
+        uses: actions/checkout@v4
+
+      - name: Scan for Hardcoded Secrets (Semgrep)
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: "p/secrets"
+
+      - name: Infrastructure-as-Code Misconfiguration Check (Checkov)
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          framework: terraform
+          soft_fail: true
+
+      - name: Container & Dependency Vulnerability Scan (Trivy)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          ignore-unfixed: true
+          format: 'table'
+          severity: 'CRITICAL,HIGH'
