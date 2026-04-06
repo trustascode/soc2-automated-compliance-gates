@@ -1,1 +1,5 @@
-GITHUB_PRODUCTION_TOKEN = "ghp_8fB9cDefGhiJklmNopQrStuVwxYz12345678"
+SERVER_PRIVATE_KEY = """
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA3q2+xyz1234567890abcdefghijklmnopqrstuvwxyz
+-----END RSA PRIVATE KEY-----
+"""
